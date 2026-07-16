@@ -1,0 +1,85 @@
+<h1 class="mb-4">Settings</h1>
+
+<%= form_with model: @setting, url: settings_path, method: :patch, local: true do |f| %>
+  <% if @setting.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0"><% @setting.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <h5>Company details (shown on invoices)</h5>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :company_name, class: "form-label" %>
+      <%= f.text_field :company_name, class: "form-control" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.label :company_email, class: "form-label" %>
+      <%= f.email_field :company_email, class: "form-control" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :company_phone, class: "form-label" %>
+    <%= f.text_field :company_phone, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :company_address_line1, "Address line 1", class: "form-label" %>
+    <%= f.text_field :company_address_line1, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :company_address_line2, "Address line 2", class: "form-label" %>
+    <%= f.text_field :company_address_line2, class: "form-control" %>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <%= f.label :company_city, "City", class: "form-label" %>
+      <%= f.text_field :company_city, class: "form-control" %>
+    </div>
+    <div class="col-md-4 mb-3">
+      <%= f.label :company_state, "State/Province", class: "form-label" %>
+      <%= f.text_field :company_state, class: "form-control" %>
+    </div>
+    <div class="col-md-4 mb-3">
+      <%= f.label :company_zip, "ZIP/Postal code", class: "form-label" %>
+      <%= f.text_field :company_zip, class: "form-control" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :company_country, "Country", class: "form-label" %>
+    <%= f.text_field :company_country, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :invoice_footer_note, "Invoice footer note (e.g. payment instructions)", class: "form-label" %>
+    <%= f.text_area :invoice_footer_note, class: "form-control", rows: 3 %>
+  </div>
+
+  <h5 class="mt-4">Email (SMTP) settings</h5>
+  <p class="text-muted small">
+    Used to send invoices from within the app. For Gmail, use an
+    <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">app password</a>,
+    not your normal password. Stored locally in your database, unencrypted &mdash; fine for a
+    single-user local app, but don't reuse a sensitive password here.
+  </p>
+  <div class="row">
+    <div class="col-md-8 mb-3">
+      <%= f.label :smtp_address, "SMTP server", class: "form-label" %>
+      <%= f.text_field :smtp_address, class: "form-control", placeholder: "smtp.gmail.com" %>
+    </div>
+    <div class="col-md-4 mb-3">
+      <%= f.label :smtp_port, "Port", class: "form-label" %>
+      <%= f.number_field :smtp_port, class: "form-control", placeholder: "587" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :smtp_username, class: "form-label" %>
+      <%= f.text_field :smtp_username, class: "form-control" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.label :smtp_password, class: "form-label" %>
+      <%= f.password_field :smtp_password, class: "form-control", value: @setting.smtp_password, autocomplete: "off" %>
+    </div>
+  </div>
+
+  <%= f.submit "Save settings", class: "btn btn-primary" %>
+<% end %>

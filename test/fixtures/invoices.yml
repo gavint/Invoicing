@@ -1,0 +1,13 @@
+draft_invoice:
+  contact: jane
+  invoice_number: INV-0001
+  issue_date: <%= Date.current %>
+  due_date: <%= Date.current + 14 %>
+  status: draft
+
+overdue_invoice:
+  contact: jane
+  invoice_number: INV-0002
+  issue_date: <%= Date.current - 30 %>
+  due_date: <%= Date.current - 10 %>
+  status: sent

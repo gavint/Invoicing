@@ -1,0 +1,21 @@
+<p>Hi <%= @contact.name %>,</p>
+
+<p>
+  Please find attached invoice <strong><%= @invoice.invoice_number %></strong> from
+  <%= @settings.company_name %>, for a total of <%= number_to_currency(@invoice.total) %>.
+</p>
+
+<% if @invoice.due_date %>
+  <p>Payment is due by <strong><%= @invoice.due_date.strftime("%B %d, %Y") %></strong>.</p>
+<% end %>
+
+<% if @settings.invoice_footer_note.present? %>
+  <p><%= simple_format(@settings.invoice_footer_note) %></p>
+<% end %>
+
+<p>Thank you for your business.</p>
+
+<p>
+  <%= @settings.company_name %><br>
+  <%= @settings.company_email %>
+</p>

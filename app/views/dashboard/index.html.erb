@@ -1,0 +1,55 @@
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row mb-4">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Outstanding invoices</h6>
+        <p class="display-6 mb-0"><%= @outstanding_invoices.count %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Outstanding amount</h6>
+        <p class="display-6 mb-0"><%= number_to_currency(@outstanding_total) %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-subtitle text-muted">Overdue</h6>
+        <p class="display-6 mb-0 text-danger"><%= @overdue_count %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="h5 mb-3">Outstanding invoices</h2>
+<% if @outstanding_invoices.empty? %>
+  <p class="text-muted">Nothing outstanding right now.</p>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Number</th><th>Contact</th><th>Issue date</th><th>Due date</th><th>Status</th><th>Total</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @outstanding_invoices.each do |invoice| %>
+        <tr class="<%= 'table-danger' if invoice.overdue? %>">
+          <td><%= link_to invoice.invoice_number, invoice %></td>
+          <td><%= invoice.contact.display_name %></td>
+          <td><%= invoice.issue_date&.strftime("%b %d, %Y") %></td>
+          <td><%= invoice.due_date&.strftime("%b %d, %Y") %></td>
+          <td><span class="badge bg-secondary"><%= invoice.status %></span></td>
+          <td><%= number_to_currency(invoice.total) %></td>
+          <td>
+            <%= link_to "Mark paid", mark_paid_invoice_path(invoice),
+                  data: { turbo_method: :patch }, class: "btn btn-sm btn-outline-success" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

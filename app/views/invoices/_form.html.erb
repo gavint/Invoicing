@@ -1,0 +1,81 @@
+<%= form_with model: invoice, local: true do |f| %>
+  <% if invoice.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% invoice.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :contact_id, "Contact", class: "form-label" %>
+      <%= f.collection_select :contact_id, Contact.order(:name), :id, :display_name,
+            { prompt: "Select a contact" }, class: "form-select" %>
+    </div>
+    <div class="col-md-3 mb-3">
+      <%= f.label :status, class: "form-label" %>
+      <%= f.select :status, Invoice::STATUSES, {}, class: "form-select" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 mb-3">
+      <%= f.label :issue_date, class: "form-label" %>
+      <%= f.date_field :issue_date, class: "form-control" %>
+    </div>
+    <div class="col-md-3 mb-3">
+      <%= f.label :due_date, class: "form-label" %>
+      <%= f.date_field :due_date, class: "form-control" %>
+    </div>
+  </div>
+
+  <h5 class="mt-4">Line items</h5>
+  <table class="table" id="invoice-items-table">
+    <thead><tr><th>Description</th><th style="width:100px">Qty</th><th style="width:140px">Unit price</th><th style="width:80px"></th></tr></thead>
+    <tbody id="invoice-items-body">
+      <%= f.fields_for :invoice_items do |item_f| %>
+        <%= render "invoice_item_fields", f: item_f %>
+      <% end %>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-sm btn-outline-secondary mb-3" id="add-item-btn">+ Add line item</button>
+
+  <template id="invoice-item-template">
+    <%= f.fields_for :invoice_items, InvoiceItem.new, child_index: "NEW_RECORD" do |item_f| %>
+      <%= render "invoice_item_fields", f: item_f %>
+    <% end %>
+  </template>
+
+  <div class="mb-3">
+    <%= f.label :notes, class: "form-label" %>
+    <%= f.text_area :notes, class: "form-control", rows: 3 %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+  <%= link_to "Cancel", invoices_path, class: "btn btn-outline-secondary" %>
+<% end %>
+
+<script>
+  (function () {
+    var addBtn = document.getElementById("add-item-btn");
+    if (!addBtn) return;
+
+    addBtn.addEventListener("click", function () {
+      var template = document.getElementById("invoice-item-template");
+      var body = document.getElementById("invoice-items-body");
+      var html = template.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+      var wrapper = document.createElement("tbody");
+      wrapper.innerHTML = html;
+      while (wrapper.firstChild) {
+        body.appendChild(wrapper.firstChild);
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("remove-item-row")) {
+        e.target.closest("tr").remove();
+      }
+    });
+  })();
+</script>

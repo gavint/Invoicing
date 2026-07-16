@@ -1,0 +1,11 @@
+item_one:
+  invoice: draft_invoice
+  description: Consulting services
+  quantity: 10.0
+  unit_price: 125.00
+
+item_two:
+  invoice: overdue_invoice
+  description: Design work
+  quantity: 5.0
+  unit_price: 80.00

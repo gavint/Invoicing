@@ -1,0 +1,65 @@
+<%= form_with model: contact, local: true do |f| %>
+  <% if contact.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% contact.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :name, class: "form-label" %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.label :company_name, class: "form-label" %>
+      <%= f.text_field :company_name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, class: "form-control" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.label :phone, class: "form-label" %>
+      <%= f.text_field :phone, class: "form-control" %>
+    </div>
+  </div>
+
+  <h5 class="mt-4">Billing address</h5>
+  <div class="mb-3">
+    <%= f.label :billing_address_line1, "Address line 1", class: "form-label" %>
+    <%= f.text_field :billing_address_line1, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :billing_address_line2, "Address line 2", class: "form-label" %>
+    <%= f.text_field :billing_address_line2, class: "form-control" %>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <%= f.label :billing_city, "City", class: "form-label" %>
+      <%= f.text_field :billing_city, class: "form-control" %>
+    </div>
+    <div class="col-md-4 mb-3">
+      <%= f.label :billing_state, "State/Province", class: "form-label" %>
+      <%= f.text_field :billing_state, class: "form-control" %>
+    </div>
+    <div class="col-md-4 mb-3">
+      <%= f.label :billing_zip, "ZIP/Postal code", class: "form-label" %>
+      <%= f.text_field :billing_zip, class: "form-control" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :billing_country, "Country", class: "form-label" %>
+    <%= f.text_field :billing_country, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :notes, class: "form-label" %>
+    <%= f.text_area :notes, class: "form-control", rows: 3 %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+  <%= link_to "Cancel", contacts_path, class: "btn btn-outline-secondary" %>
+<% end %>

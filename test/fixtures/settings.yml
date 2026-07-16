@@ -1,0 +1,8 @@
+default:
+  company_name: Acme Co
+  company_email: billing@acme.test
+  company_phone: "555-999-0000"
+  smtp_address: smtp.example.test
+  smtp_port: 587
+  smtp_username: user@example.test
+  smtp_password: secret

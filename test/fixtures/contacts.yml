@@ -1,0 +1,14 @@
+jane:
+  name: Jane Doe
+  company_name: Doe Consulting
+  email: jane@example.com
+  phone: "555-123-4567"
+  billing_address_line1: 123 Main St
+  billing_city: Springfield
+  billing_state: IL
+  billing_zip: "62704"
+  billing_country: USA
+
+bob:
+  name: Bob Smith
+  email: bob@example.com
