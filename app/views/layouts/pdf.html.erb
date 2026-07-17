@@ -3,12 +3,30 @@
   <head>
     <meta charset="utf-8">
     <style>
+      :root {
+        /* Fonts — swap these to change the typeface everywhere. */
+        --font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+        /* Type sizes — every font-size below is one of these. */
+        --font-size-xs: 11px;   /* section labels, table headers */
+        --font-size-sm: 12px;   /* secondary text: meta table, totals label, notes */
+        --font-size-base: 13px; /* body copy */
+        --font-size-lg: 16px;   /* total amount */
+        --font-size-xl: 20px;   /* company name */
+        --font-size-2xl: 24px;  /* "INVOICE" title */
+
+        /* Column spacing — padding inside table cells/columns. */
+        --column-padding-y: 10px;   /* line-items row height */
+        --column-padding-x: 12px;   /* line-items column gap */
+        --meta-column-gap: 16px;    /* gap between meta table label and value */
+      }
+
       * { box-sizing: border-box; }
 
       body {
-        font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+        font-family: var(--font-family);
         color: #1f2933;
-        font-size: 13px;
+        font-size: var(--font-size-base);
         margin: 0;
         padding: 40px;
       }
@@ -24,7 +42,7 @@
 
       .company h1 {
         margin: 0 0 8px;
-        font-size: 20px;
+        font-size: var(--font-size-xl);
         color: #111827;
       }
 
@@ -38,7 +56,7 @@
 
       .invoice-meta h2 {
         margin: 0 0 12px;
-        font-size: 24px;
+        font-size: var(--font-size-2xl);
         letter-spacing: 2px;
         color: #2563eb;
       }
@@ -49,9 +67,9 @@
       }
 
       .invoice-meta th, .invoice-meta td {
-        padding: 3px 0 3px 16px;
+        padding: 3px 0 3px var(--meta-column-gap);
         text-align: right;
-        font-size: 12px;
+        font-size: var(--font-size-sm);
       }
 
       .invoice-meta th {
@@ -73,7 +91,7 @@
 
       .bill-to h3 {
         text-transform: uppercase;
-        font-size: 11px;
+        font-size: var(--font-size-xs);
         letter-spacing: 1px;
         color: #6b7280;
         margin: 0 0 8px;
@@ -93,16 +111,16 @@
       table.line-items thead th {
         background: #f3f4f6;
         text-align: left;
-        font-size: 11px;
+        font-size: var(--font-size-xs);
         text-transform: uppercase;
         letter-spacing: 0.5px;
         color: #6b7280;
-        padding: 10px 12px;
+        padding: var(--column-padding-y) var(--column-padding-x);
         border-bottom: 2px solid #e5e7eb;
       }
 
       table.line-items td {
-        padding: 10px 12px;
+        padding: var(--column-padding-y) var(--column-padding-x);
         border-bottom: 1px solid #e5e7eb;
       }
 
@@ -121,19 +139,19 @@
       .total-label {
         text-align: right;
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: var(--font-size-sm);
         letter-spacing: 1px;
         color: #6b7280;
       }
 
       .total-amount {
-        font-size: 16px;
+        font-size: var(--font-size-lg);
         color: #111827;
       }
 
       .notes, .invoice-footer {
         margin-top: 20px;
-        font-size: 12px;
+        font-size: var(--font-size-sm);
         color: #4b5563;
       }
 
