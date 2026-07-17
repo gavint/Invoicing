@@ -1,0 +1,85 @@
+<%
+  # @invoice is set via `assigns:` in InvoicePdf (see app/services/invoice_pdf.rb),
+  # the same way a controller action would normally set it.
+  settings = Setting.instance
+  contact = @invoice.contact
+%>
+<div class="invoice">
+  <header class="invoice-header">
+    <div class="company">
+      <h1><%= settings.company_name %></h1>
+      <p>
+        <% if settings.company_address_line1.present? %><%= settings.company_address_line1 %><br><% end %>
+        <% if settings.company_address_line2.present? %><%= settings.company_address_line2 %><br><% end %>
+        <%= [settings.company_city, settings.company_state, settings.company_zip].compact_blank.join(", ") %><br>
+        <%= settings.company_country %>
+      </p>
+      <p>
+        <%= settings.company_email %><br>
+        <%= settings.company_phone %>
+      </p>
+    </div>
+    <div class="invoice-meta">
+      <h2>INVOICE</h2>
+      <table>
+        <tr><th>Invoice #</th><td><%= @invoice.invoice_number %></td></tr>
+        <tr><th>Issue date</th><td><%= @invoice.issue_date&.strftime("%B %d, %Y") %></td></tr>
+        <tr><th>Due date</th><td><%= @invoice.due_date&.strftime("%B %d, %Y") %></td></tr>
+        <tr><th>Status</th><td class="status status-<%= @invoice.status %>"><%= @invoice.status.upcase %></td></tr>
+      </table>
+    </div>
+  </header>
+
+  <section class="bill-to">
+    <h3>Bill To</h3>
+    <p>
+      <strong><%= contact.display_name %></strong><br>
+      <% if contact.company_name.present? %><%= contact.name %><br><% end %>
+      <% if contact.billing_address_line1.present? %><%= contact.billing_address_line1 %><br><% end %>
+      <% if contact.billing_address_line2.present? %><%= contact.billing_address_line2 %><br><% end %>
+      <%= [contact.billing_city, contact.billing_state, contact.billing_zip].compact_blank.join(", ") %><br>
+      <%= contact.billing_country %><br>
+      <%= contact.email %>
+    </p>
+  </section>
+
+  <table class="line-items">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th class="num">Qty</th>
+        <th class="num">Unit Price</th>
+        <th class="num">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @invoice.invoice_items.each do |item| %>
+        <tr>
+          <td><%= item.description %></td>
+          <td class="num"><%= item.quantity %></td>
+          <td class="num"><%= number_to_currency(item.unit_price) %></td>
+          <td class="num"><%= number_to_currency(item.line_total) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="total-label">Total</td>
+        <td class="num total-amount"><%= number_to_currency(@invoice.total) %></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <% if @invoice.notes.present? %>
+    <section class="notes">
+      <h3>Notes</h3>
+      <p><%= simple_format(@invoice.notes) %></p>
+    </section>
+  <% end %>
+
+  <% if settings.invoice_footer_note.present? %>
+    <footer class="invoice-footer">
+      <p><%= simple_format(settings.invoice_footer_note) %></p>
+    </footer>
+  <% end %>
+</div>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+        color: #1f2933;
+        font-size: 13px;
+        margin: 0;
+        padding: 40px;
+      }
+
+      .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 3px solid #2563eb;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+      }
+
+      .company h1 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: #111827;
+      }
+
+      .company p {
+        margin: 0 0 6px;
+        line-height: 1.5;
+        color: #4b5563;
+      }
+
+      .invoice-meta { text-align: right; }
+
+      .invoice-meta h2 {
+        margin: 0 0 12px;
+        font-size: 24px;
+        letter-spacing: 2px;
+        color: #2563eb;
+      }
+
+      .invoice-meta table {
+        border-collapse: collapse;
+        margin-left: auto;
+      }
+
+      .invoice-meta th, .invoice-meta td {
+        padding: 3px 0 3px 16px;
+        text-align: right;
+        font-size: 12px;
+      }
+
+      .invoice-meta th {
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      .status {
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .status-paid  { color: #059669; }
+      .status-sent  { color: #2563eb; }
+      .status-draft { color: #6b7280; }
+      .status-void  { color: #dc2626; }
+
+      .bill-to { margin-bottom: 30px; }
+
+      .bill-to h3 {
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: #6b7280;
+        margin: 0 0 8px;
+      }
+
+      .bill-to p {
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      table.line-items {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+
+      table.line-items thead th {
+        background: #f3f4f6;
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6b7280;
+        padding: 10px 12px;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      table.line-items td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      table.line-items .num {
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      table.line-items tfoot td {
+        border-bottom: none;
+        border-top: 2px solid #111827;
+        padding-top: 14px;
+        font-weight: 700;
+      }
+
+      .total-label {
+        text-align: right;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1px;
+        color: #6b7280;
+      }
+
+      .total-amount {
+        font-size: 16px;
+        color: #111827;
+      }
+
+      .notes, .invoice-footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #4b5563;
+      }
+
+      .invoice-footer {
+        border-top: 1px solid #e5e7eb;
+        padding-top: 16px;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

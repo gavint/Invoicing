@@ -65,6 +65,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "prawn", "= 2.5.0"
-
-gem "prawn-table", "= 0.2.2"
+gem "grover", "= 1.2.10"

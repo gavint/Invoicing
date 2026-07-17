@@ -38,3 +38,8 @@
 # a local SQLite database file no matter where it ends up.
 *.sqlite3
 *.sqlite3-*
+
+# Node/Puppeteer (used by Grover for PDF generation). node_modules includes a
+# downloaded Chromium binary and can be 300MB+ — never commit it. package.json
+# and package-lock.json ARE committed (that's what pins the Puppeteer version).
+/node_modules
