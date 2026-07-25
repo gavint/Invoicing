@@ -1,4 +1,5 @@
 draft_invoice:
+  id: 1
   contact: jane
   invoice_number: INV-0001
   issue_date: <%= Date.current %>
@@ -6,6 +7,7 @@ draft_invoice:
   status: draft
 
 overdue_invoice:
+  id: 2
   contact: jane
   invoice_number: INV-0002
   issue_date: <%= Date.current - 30 %>
