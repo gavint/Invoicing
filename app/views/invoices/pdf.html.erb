@@ -29,7 +29,11 @@
         <tr><th>Invoice #</th><td><%= @invoice.invoice_number %></td></tr>
         <tr><th>Issue date</th><td><%= @invoice.issue_date&.strftime("%B %d, %Y") %></td></tr>
         <tr><th>Due date</th><td><%= @invoice.due_date&.strftime("%B %d, %Y") %></td></tr>
-        <tr><th>Status</th><td class="status status-<%= @invoice.status %>"><%= @invoice.status.upcase %></td></tr>
+        <% if @invoice.overdue? %>
+          <tr><th>Status</th><td class="status status-overdue">OVERDUE</td></tr>
+        <% elsif @invoice.status != "sent" %>
+          <tr><th>Status</th><td class="status status-<%= @invoice.status %>"><%= @invoice.status.upcase %></td></tr>
+        <% end %>
       </table>
     </div>
   </header>

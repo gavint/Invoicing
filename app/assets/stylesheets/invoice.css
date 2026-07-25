@@ -127,6 +127,10 @@ body {
   color: #dc2626;
 }
 
+.status-overdue {
+  color: #dc2626;
+}
+
 /* ---------- Bill To ---------- */
 
 .bill-to {

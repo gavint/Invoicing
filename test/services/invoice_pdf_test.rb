@@ -35,4 +35,29 @@ class InvoicePdfTest < ActiveSupport::TestCase
     assert_not_includes html, "Account name"
     assert_not_includes html, "BSB"
   end
+
+  test "shows the status for a draft invoice" do
+    html = InvoicePdf.new(invoices(:draft_invoice)).to_html
+
+    assert_includes html, %(class="status status-draft">DRAFT)
+  end
+
+  test "shows the status for a paid invoice" do
+    html = InvoicePdf.new(invoices(:paid_invoice)).to_html
+
+    assert_includes html, %(class="status status-paid">PAID)
+  end
+
+  test "hides the status for a sent invoice that isn't overdue" do
+    html = InvoicePdf.new(invoices(:sent_invoice)).to_html
+
+    assert_not_includes html, "<th>Status</th>"
+  end
+
+  test "shows OVERDUE instead of SENT for a sent invoice past its due date" do
+    html = InvoicePdf.new(invoices(:overdue_invoice)).to_html
+
+    assert_includes html, %(class="status status-overdue">OVERDUE)
+    assert_not_includes html, "SENT"
+  end
 end

@@ -13,3 +13,19 @@ overdue_invoice:
   issue_date: <%= Date.current - 30 %>
   due_date: <%= Date.current - 10 %>
   status: sent
+
+sent_invoice:
+  id: 3
+  contact: jane
+  invoice_number: INV-0003
+  issue_date: <%= Date.current %>
+  due_date: <%= Date.current + 14 %>
+  status: sent
+
+paid_invoice:
+  id: 4
+  contact: jane
+  invoice_number: INV-0004
+  issue_date: <%= Date.current - 20 %>
+  due_date: <%= Date.current - 5 %>
+  status: paid
