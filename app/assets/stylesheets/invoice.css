@@ -1,13 +1,40 @@
 /* Invoice PDF stylesheet
    Mirrors the structure of app/views/invoices/pdf.html.erb, in document order.
-   Fill in whichever rules you need — empty ones can stay empty. */
+   Inlined into app/views/layouts/pdf.html.erb at render time (Grover renders
+   from a raw HTML string, not a live page load, so a linked <link> tag can't
+   resolve /assets URLs without a running server) — so this file is still the
+   one place to edit invoice styling, fonts, sizes, and spacing. */
+
+:root {
+  /* Fonts — swap these to change the typeface everywhere. */
+  --font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Type sizes — every font-size below is one of these. */
+  --font-size-xs: 11px;   /* section labels, table headers */
+  --font-size-sm: 12px;   /* secondary text: meta table, totals label, notes */
+  --font-size-base: 13px; /* body copy */
+  --font-size-lg: 16px;   /* total amount */
+  --font-size-xl: 20px;   /* company name */
+  --font-size-2xl: 24px;  /* "INVOICE" title */
+
+  /* Column spacing — padding inside table cells/columns. */
+  --column-padding-y: 10px;   /* line-items row height */
+  --column-padding-x: 12px;   /* line-items column gap */
+  --meta-column-gap: 16px;    /* gap between meta table label and value */
+}
 
 /* ---------- Page defaults ---------- */
 
 * {
+  box-sizing: border-box;
 }
 
 body {
+  font-family: var(--font-family);
+  color: #1f2933;
+  font-size: var(--font-size-base);
+  margin: 0;
+  padding: 40px;
 }
 
 .invoice {
@@ -16,88 +43,158 @@ body {
 /* ---------- Header: company info + invoice meta ---------- */
 
 .invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .company {
 }
 
 .company h1 {
+  margin: 0 0 8px;
+  font-size: var(--font-size-xl);
+  color: #111827;
 }
 
 .company p {
+  margin: 0 0 6px;
+  line-height: 1.5;
+  color: #4b5563;
 }
 
 .invoice-meta {
+  text-align: right;
 }
 
 .invoice-meta h2 {
+  margin: 0 0 12px;
+  font-size: var(--font-size-2xl);
+  letter-spacing: 2px;
+  color: #2563eb;
 }
 
 .invoice-meta table {
+  border-collapse: collapse;
+  margin-left: auto;
 }
 
 .invoice-meta th {
+  padding: 3px 0 3px var(--meta-column-gap);
+  text-align: right;
+  font-size: var(--font-size-sm);
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .invoice-meta td {
+  padding: 3px 0 3px var(--meta-column-gap);
+  text-align: right;
+  font-size: var(--font-size-sm);
 }
 
 /* ---------- Status badge ---------- */
 
 .status {
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .status-draft {
+  color: #6b7280;
 }
 
 .status-sent {
+  color: #2563eb;
 }
 
 .status-paid {
+  color: #059669;
 }
 
 .status-void {
+  color: #dc2626;
 }
 
 /* ---------- Bill To ---------- */
 
 .bill-to {
+  margin-bottom: 30px;
 }
 
 .bill-to h3 {
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  letter-spacing: 1px;
+  color: #6b7280;
+  margin: 0 0 8px;
 }
 
 .bill-to p {
+  margin: 0;
+  line-height: 1.6;
 }
 
 /* ---------- Line items table ---------- */
 
 table.line-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
 }
 
 table.line-items thead th {
+  background: #f3f4f6;
+  text-align: left;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+  padding: var(--column-padding-y) var(--column-padding-x);
+  border-bottom: 2px solid #e5e7eb;
 }
 
 table.line-items tbody td {
+  padding: var(--column-padding-y) var(--column-padding-x);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 table.line-items .num {
+  text-align: right;
+  white-space: nowrap;
 }
 
 /* ---------- Totals row ---------- */
 
 table.line-items tfoot td {
+  border-bottom: none;
+  border-top: 2px solid #111827;
+  padding-top: 14px;
+  font-weight: 700;
 }
 
 .total-label {
+  text-align: right;
+  text-transform: uppercase;
+  font-size: var(--font-size-sm);
+  letter-spacing: 1px;
+  color: #6b7280;
 }
 
 .total-amount {
+  font-size: var(--font-size-lg);
+  color: #111827;
 }
 
 /* ---------- Notes ---------- */
 
 .notes {
+  margin-top: 20px;
+  font-size: var(--font-size-sm);
+  color: #4b5563;
 }
 
 .notes h3 {
@@ -106,9 +203,47 @@ table.line-items tfoot td {
 .notes p {
 }
 
+/* ---------- Payment details (from Settings) ---------- */
+
+.payment-details {
+  margin-top: 20px;
+  font-size: var(--font-size-sm);
+  color: #4b5563;
+}
+
+.payment-details h3 {
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  letter-spacing: 1px;
+  color: #6b7280;
+  margin: 0 0 8px;
+}
+
+.payment-details table {
+  border-collapse: collapse;
+}
+
+.payment-details th {
+  text-align: left;
+  font-weight: 500;
+  color: #6b7280;
+  padding: 2px var(--meta-column-gap) 2px 0;
+}
+
+.payment-details td {
+  text-align: left;
+  font-weight: normal;
+  padding: 2px var(--meta-column-gap) 2px 0;
+}
+
 /* ---------- Footer note (from Settings) ---------- */
 
 .invoice-footer {
+  font-size: var(--font-size-sm);
+  color: #4b5563;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+  margin-top: 30px;
 }
 
 .invoice-footer p {
