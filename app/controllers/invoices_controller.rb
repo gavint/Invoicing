@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: %i[show edit update destroy mark_paid download_pdf send_email]
+  before_action :set_invoice, only: %i[show edit update destroy mark_paid download_pdf send_email preview_pdf]
 
   def index
     @invoices = Invoice.includes(:contact).order(issue_date: :desc)
@@ -52,6 +52,14 @@ class InvoicesController < ApplicationController
   def download_pdf
     pdf = InvoicePdf.new(@invoice).render
     send_data pdf, filename: "invoice-#{@invoice.invoice_number}.pdf", type: "application/pdf", disposition: "inline"
+  end
+
+  # Dev-only: renders the same template/layout Grover converts to PDF, but as
+  # a plain webpage — so you can use the browser's inspector to live-tweak
+  # CSS instead of regenerating a PDF after every change. Not available
+  # outside development (see config/routes.rb).
+  def preview_pdf
+    render template: "invoices/pdf", layout: "pdf"
   end
 
   def send_email

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       patch :mark_paid
       get :download_pdf
       post :send_email
+      get :preview_pdf if Rails.env.development?
     end
   end
 
