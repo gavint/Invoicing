@@ -38,6 +38,8 @@ body {
 }
 
 .invoice {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 /* ---------- Header: company info + invoice meta ---------- */
@@ -62,8 +64,14 @@ body {
 
 .company p {
   margin: 0 0 6px;
-  line-height: 1.5;
+  line-height: 1.2;
+  font-size: var(--font-size-sm);
   color: #4b5563;
+}
+
+.company .abn {
+  font-size: var(--font-size-reg);
+  font-weight: bold;
 }
 
 .invoice-meta {
