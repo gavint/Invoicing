@@ -2,6 +2,10 @@ default:
   company_name: Acme Co
   company_email: billing@acme.test
   company_phone: "555-999-0000"
+  bank_account_name: Acme Co
+  bank_bsb: "062-000"
+  bank_account_number: "12345678"
+  pay_id: billing@acme.test
   smtp_address: smtp.example.test
   smtp_port: 587
   smtp_username: user@example.test

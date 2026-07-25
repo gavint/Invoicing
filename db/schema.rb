@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_000004) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_000005) do
   create_table "contacts", force: :cascade do |t|
     t.string "billing_address_line1"
     t.string "billing_address_line2"
@@ -52,6 +52,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_000004) do
   end
 
   create_table "settings", force: :cascade do |t|
+    t.string "bank_account_name"
+    t.string "bank_account_number"
+    t.string "bank_bsb"
     t.string "company_address_line1"
     t.string "company_address_line2"
     t.string "company_city"
@@ -63,6 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_000004) do
     t.string "company_zip"
     t.datetime "created_at", null: false
     t.text "invoice_footer_note"
+    t.string "pay_id"
     t.string "smtp_address"
     t.string "smtp_password"
     t.integer "smtp_port"

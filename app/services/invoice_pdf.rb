@@ -9,12 +9,14 @@ class InvoicePdf
   end
 
   def render
-    html = ApplicationController.render(
+    Grover.new(to_html, format: "A4", print_background: true).to_pdf
+  end
+
+  def to_html
+    ApplicationController.render(
       template: "invoices/pdf",
       layout: "pdf",
       assigns: { invoice: @invoice }
     )
-
-    Grover.new(html, format: "A4", print_background: true).to_pdf
   end
 end

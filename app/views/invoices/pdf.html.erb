@@ -77,6 +77,25 @@
     </section>
   <% end %>
 
+  <%
+    payment_fields = [
+      ["Account name", settings.bank_account_name],
+      ["BSB", settings.bank_bsb],
+      ["Account number", settings.bank_account_number],
+      ["PayID", settings.pay_id]
+    ].select { |_label, value| value.present? }
+  %>
+  <% if payment_fields.any? %>
+    <section class="payment-details">
+      <h3>Payment Details</h3>
+      <table>
+        <% payment_fields.each do |label, value| %>
+          <tr><th><%= label %></th><td><%= value %></td></tr>
+        <% end %>
+      </table>
+    </section>
+  <% end %>
+
   <% if settings.invoice_footer_note.present? %>
     <footer class="invoice-footer">
       <p><%= simple_format(settings.invoice_footer_note) %></p>

@@ -49,8 +49,29 @@
     <%= f.text_field :company_country, class: "form-control" %>
   </div>
   <div class="mb-3">
-    <%= f.label :invoice_footer_note, "Invoice footer note (e.g. payment instructions)", class: "form-label" %>
+    <%= f.label :invoice_footer_note, "Invoice footer note", class: "form-label" %>
     <%= f.text_area :invoice_footer_note, class: "form-control", rows: 3 %>
+  </div>
+
+  <h5 class="mt-4">Payment details (shown at the bottom of invoices)</h5>
+  <p class="text-muted small">Leave any of these blank to leave them off the invoice.</p>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.label :bank_account_name, "Account name", class: "form-label" %>
+      <%= f.text_field :bank_account_name, class: "form-control" %>
+    </div>
+    <div class="col-md-3 mb-3">
+      <%= f.label :bank_bsb, "BSB", class: "form-label" %>
+      <%= f.text_field :bank_bsb, class: "form-control" %>
+    </div>
+    <div class="col-md-3 mb-3">
+      <%= f.label :bank_account_number, "Account number", class: "form-label" %>
+      <%= f.text_field :bank_account_number, class: "form-control" %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= f.label :pay_id, "PayID", class: "form-label" %>
+    <%= f.text_field :pay_id, class: "form-control" %>
   </div>
 
   <h5 class="mt-4">Email (SMTP) settings</h5>
