@@ -1,0 +1,115 @@
+/* Invoice PDF stylesheet
+   Mirrors the structure of app/views/invoices/pdf.html.erb, in document order.
+   Fill in whichever rules you need — empty ones can stay empty. */
+
+/* ---------- Page defaults ---------- */
+
+* {
+}
+
+body {
+}
+
+.invoice {
+}
+
+/* ---------- Header: company info + invoice meta ---------- */
+
+.invoice-header {
+}
+
+.company {
+}
+
+.company h1 {
+}
+
+.company p {
+}
+
+.invoice-meta {
+}
+
+.invoice-meta h2 {
+}
+
+.invoice-meta table {
+}
+
+.invoice-meta th {
+}
+
+.invoice-meta td {
+}
+
+/* ---------- Status badge ---------- */
+
+.status {
+}
+
+.status-draft {
+}
+
+.status-sent {
+}
+
+.status-paid {
+}
+
+.status-void {
+}
+
+/* ---------- Bill To ---------- */
+
+.bill-to {
+}
+
+.bill-to h3 {
+}
+
+.bill-to p {
+}
+
+/* ---------- Line items table ---------- */
+
+table.line-items {
+}
+
+table.line-items thead th {
+}
+
+table.line-items tbody td {
+}
+
+table.line-items .num {
+}
+
+/* ---------- Totals row ---------- */
+
+table.line-items tfoot td {
+}
+
+.total-label {
+}
+
+.total-amount {
+}
+
+/* ---------- Notes ---------- */
+
+.notes {
+}
+
+.notes h3 {
+}
+
+.notes p {
+}
+
+/* ---------- Footer note (from Settings) ---------- */
+
+.invoice-footer {
+}
+
+.invoice-footer p {
+}
