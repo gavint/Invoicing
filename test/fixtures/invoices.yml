@@ -29,3 +29,11 @@ paid_invoice:
   issue_date: <%= Date.current - 20 %>
   due_date: <%= Date.current - 5 %>
   status: paid
+
+void_invoice:
+  id: 5
+  contact: jane
+  invoice_number: INV-0005
+  issue_date: <%= Date.current - 10 %>
+  due_date: <%= Date.current + 4 %>
+  status: void

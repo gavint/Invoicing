@@ -12,6 +12,18 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_match invoices(:overdue_invoice).invoice_number, response.body
   end
 
+  test "index excludes void invoices by default" do
+    get invoices_path
+    assert_response :success
+    assert_no_match invoices(:void_invoice).invoice_number, response.body
+  end
+
+  test "index includes void invoices when show_void is checked" do
+    get invoices_path(show_void: "1")
+    assert_response :success
+    assert_match invoices(:void_invoice).invoice_number, response.body
+  end
+
   test "show displays an invoice" do
     get invoice_path(invoices(:draft_invoice))
     assert_response :success

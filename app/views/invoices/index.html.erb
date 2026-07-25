@@ -3,10 +3,20 @@
   <%= link_to "New invoice", new_invoice_path, class: "btn btn-primary" %>
 </div>
 
-<div class="mb-3 btn-group">
-  <%= link_to "All", invoices_path, class: "btn btn-sm #{params[:status].blank? ? 'btn-dark' : 'btn-outline-dark'}" %>
-  <% Invoice::STATUSES.each do |status| %>
-    <%= link_to status.capitalize, invoices_path(status: status), class: "btn btn-sm #{params[:status] == status ? 'btn-dark' : 'btn-outline-dark'}" %>
+<div class="mb-3 d-flex align-items-center gap-3">
+  <div class="btn-group">
+    <%= link_to "All", invoices_path, class: "btn btn-sm #{params[:status].blank? ? 'btn-dark' : 'btn-outline-dark'}" %>
+    <% (Invoice::STATUSES - ["void"]).each do |status| %>
+      <%= link_to status.capitalize, invoices_path(status: status), class: "btn btn-sm #{params[:status] == status ? 'btn-dark' : 'btn-outline-dark'}" %>
+    <% end %>
+  </div>
+
+  <%= form_with url: invoices_path, method: :get, local: true do %>
+    <%= hidden_field_tag :status, params[:status] if params[:status].present? %>
+    <div class="form-check mb-0">
+      <%= check_box_tag :show_void, "1", @show_void, class: "form-check-input", onchange: "this.form.requestSubmit()" %>
+      <%= label_tag :show_void, "Show void invoices", class: "form-check-label" %>
+    </div>
   <% end %>
 </div>
 

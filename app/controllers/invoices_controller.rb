@@ -2,8 +2,13 @@ class InvoicesController < ApplicationController
   before_action :set_invoice, only: %i[show edit update destroy mark_paid download_pdf send_email preview_pdf]
 
   def index
+    @show_void = params[:show_void].present?
     @invoices = Invoice.includes(:contact).order(issue_date: :desc)
-    @invoices = @invoices.where(status: params[:status]) if params[:status].present?
+    if params[:status].present?
+      @invoices = @invoices.where(status: params[:status])
+    elsif !@show_void
+      @invoices = @invoices.where.not(status: "void")
+    end
   end
 
   def show; end
