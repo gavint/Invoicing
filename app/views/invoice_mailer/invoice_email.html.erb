@@ -9,6 +9,10 @@
   <p>Payment is due by <strong><%= @invoice.due_date.strftime("%B %d, %Y") %></strong>.</p>
 <% end %>
 
+<% if @payment_link_url.present? %>
+  <p><%= link_to "Pay this invoice online", @payment_link_url %></p>
+<% end %>
+
 <% if @settings.invoice_footer_note.present? %>
   <p><%= simple_format(@settings.invoice_footer_note) %></p>
 <% end %>

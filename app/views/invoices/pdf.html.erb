@@ -85,6 +85,12 @@
     </section>
   <% end %>
 
+  <% if @payment_link_url.present? %>
+    <section class="pay-online">
+      <%= link_to "Pay this invoice online", @payment_link_url, class: "pay-now-button" %>
+    </section>
+  <% end %>
+
   <%
     payment_fields = [
       ["Account name", settings.bank_account_name],

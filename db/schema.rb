@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_000005) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_01_000006) do
   create_table "contacts", force: :cascade do |t|
     t.string "billing_address_line1"
     t.string "billing_address_line2"
@@ -46,6 +46,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_000005) do
     t.text "notes"
     t.datetime "paid_at"
     t.string "status", default: "draft", null: false
+    t.string "stripe_payment_link_id"
+    t.string "stripe_payment_link_url"
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_invoices_on_contact_id"
     t.index ["invoice_number"], name: "index_invoices_on_invoice_number", unique: true
@@ -71,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_000005) do
     t.string "smtp_password"
     t.integer "smtp_port"
     t.string "smtp_username"
+    t.string "stripe_secret_key"
     t.datetime "updated_at", null: false
   end
 

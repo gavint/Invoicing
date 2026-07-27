@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class InvoicesControllerTest < ActionDispatch::IntegrationTest
   test "index lists invoices" do
@@ -56,6 +57,41 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     patch mark_paid_invoice_path(invoice)
     assert_redirected_to invoice_path(invoice)
     assert_equal "paid", invoice.reload.status
+  end
+
+  test "mark_paid deactivates an existing Stripe payment link" do
+    invoice = invoices(:draft_invoice)
+    invoice.update_columns(stripe_payment_link_id: "plink_x", stripe_payment_link_url: "https://buy.stripe.com/x")
+
+    Stripe::PaymentLink.stub :update, ->(*) {} do
+      patch mark_paid_invoice_path(invoice)
+    end
+
+    assert_nil invoice.reload.stripe_payment_link_id
+  end
+
+  test "voiding an invoice deactivates its Stripe payment link" do
+    invoice = invoices(:draft_invoice)
+    invoice.update_columns(stripe_payment_link_id: "plink_x", stripe_payment_link_url: "https://buy.stripe.com/x")
+
+    called = false
+    Stripe::PaymentLink.stub :update, ->(*) { called = true } do
+      patch invoice_path(invoice), params: { invoice: { status: "void" } }
+    end
+
+    assert called, "expected Stripe::PaymentLink.update to be called"
+    assert_nil invoice.reload.stripe_payment_link_id
+  end
+
+  test "updating an invoice without voiding it leaves its Stripe payment link alone" do
+    invoice = invoices(:draft_invoice)
+    invoice.update_columns(stripe_payment_link_id: "plink_x", stripe_payment_link_url: "https://buy.stripe.com/x")
+
+    Stripe::PaymentLink.stub :update, ->(*) { raise "should not be called" } do
+      patch invoice_path(invoice), params: { invoice: { notes: "Updated notes" } }
+    end
+
+    assert_equal "plink_x", invoice.reload.stripe_payment_link_id
   end
 
   test "download_pdf returns a PDF" do

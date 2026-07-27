@@ -16,7 +16,7 @@ class InvoicePdf
     ApplicationController.render(
       template: "invoices/pdf",
       layout: "pdf",
-      assigns: { invoice: @invoice }
+      assigns: { invoice: @invoice, payment_link_url: StripePaymentLink.new(@invoice).url }
     )
   end
 end

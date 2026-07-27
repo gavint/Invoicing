@@ -11,7 +11,9 @@ class InvoicesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @payment_link_url = StripePaymentLink.new(@invoice).url
+  end
 
   def new
     @invoice = Invoice.new(
@@ -37,7 +39,9 @@ class InvoicesController < ApplicationController
   end
 
   def update
+    status_was = @invoice.status
     if @invoice.update(invoice_params)
+      StripePaymentLink.new(@invoice).deactivate! if @invoice.status == "void" && status_was != "void"
       redirect_to @invoice, notice: "Invoice updated."
     else
       render :edit, status: :unprocessable_entity
@@ -51,6 +55,7 @@ class InvoicesController < ApplicationController
 
   def mark_paid
     @invoice.mark_paid!
+    StripePaymentLink.new(@invoice).deactivate!
     redirect_to @invoice, notice: "Invoice marked as paid."
   end
 

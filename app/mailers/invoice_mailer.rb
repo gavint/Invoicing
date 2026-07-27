@@ -3,6 +3,7 @@ class InvoiceMailer < ApplicationMailer
     @invoice = invoice
     @contact = invoice.contact
     @settings = Setting.instance
+    @payment_link_url = StripePaymentLink.new(@invoice).url
 
     attachments["invoice-#{@invoice.invoice_number}.pdf"] = InvoicePdf.new(@invoice).render
 

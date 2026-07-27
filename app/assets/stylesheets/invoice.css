@@ -215,6 +215,23 @@ table.line-items tfoot td {
 .notes p {
 }
 
+/* ---------- Pay online (Stripe payment link) ---------- */
+
+.pay-online {
+  margin-top: 20px;
+}
+
+.pay-now-button {
+  display: inline-block;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
 /* ---------- Payment details (from Settings) ---------- */
 
 .payment-details {

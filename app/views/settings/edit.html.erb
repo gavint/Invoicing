@@ -74,6 +74,19 @@
     <%= f.text_field :pay_id, class: "form-control" %>
   </div>
 
+  <h5 class="mt-4">Card payments (Stripe)</h5>
+  <p class="text-muted small">
+    Adds a "Pay now" link to invoices. Get a secret key from your
+    <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener">Stripe dashboard</a>
+    &mdash; use a test key (starts with <code>sk_test_</code>) until you're ready to accept real
+    payments. Stored locally in your database, unencrypted, same as the SMTP password below.
+    Leave blank to leave the payment link off invoices entirely.
+  </p>
+  <div class="mb-3">
+    <%= f.label :stripe_secret_key, "Secret key", class: "form-label" %>
+    <%= f.password_field :stripe_secret_key, class: "form-control", value: @setting.stripe_secret_key, autocomplete: "off" %>
+  </div>
+
   <h5 class="mt-4">Email (SMTP) settings</h5>
   <p class="text-muted small">
     Used to send invoices from within the app. For Gmail, use an

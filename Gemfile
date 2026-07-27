@@ -63,6 +63,11 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # minitest/mock (Object#stub) - split out of minitest core as a bundled gem
+  gem "minitest-mock"
 end
 
 gem "grover", "= 1.2.10"
+
+# Stripe Payment Links (invoice "Pay now" links) [https://github.com/stripe/stripe-ruby]
+gem "stripe", "~> 19.0"

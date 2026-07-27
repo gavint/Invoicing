@@ -13,6 +13,13 @@
   </div>
 </div>
 
+<% if @payment_link_url.present? %>
+  <div class="alert alert-primary d-flex justify-content-between align-items-center">
+    <span>This invoice can be paid online by card.</span>
+    <%= link_to "Pay now", @payment_link_url, target: "_blank", rel: "noopener", class: "btn btn-primary btn-sm" %>
+  </div>
+<% end %>
+
 <div class="row mb-4">
   <div class="col-md-6">
     <h6 class="text-muted">Bill to</h6>
