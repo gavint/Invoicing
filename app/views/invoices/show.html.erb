@@ -50,6 +50,16 @@
     <% end %>
   </tbody>
   <tfoot>
+    <% if @invoice.gst_applicable? %>
+      <tr>
+        <th colspan="3" class="text-end fw-normal">Subtotal</th>
+        <th class="text-end fw-normal"><%= number_to_currency(@invoice.subtotal) %></th>
+      </tr>
+      <tr>
+        <th colspan="3" class="text-end fw-normal">GST (10%)</th>
+        <th class="text-end fw-normal"><%= number_to_currency(@invoice.gst_amount) %></th>
+      </tr>
+    <% end %>
     <tr>
       <th colspan="3" class="text-end">Total</th>
       <th class="text-end"><%= number_to_currency(@invoice.total) %></th>

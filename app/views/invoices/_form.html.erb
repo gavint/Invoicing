@@ -17,6 +17,12 @@
       <%= f.label :status, class: "form-label" %>
       <%= f.select :status, Invoice::STATUSES, {}, class: "form-select" %>
     </div>
+    <div class="col-md-3 mb-3 d-flex align-items-end">
+      <div class="form-check">
+        <%= f.check_box :gst_applicable, class: "form-check-input" %>
+        <%= f.label :gst_applicable, "Charge GST (10%)", class: "form-check-label" %>
+      </div>
+    </div>
   </div>
 
   <div class="row">

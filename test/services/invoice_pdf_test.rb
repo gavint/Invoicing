@@ -2,6 +2,8 @@ require "test_helper"
 require "minitest/mock"
 
 class InvoicePdfTest < ActiveSupport::TestCase
+  include ActionView::Helpers::NumberHelper
+
   test "renders PDF bytes for an invoice" do
     pdf = InvoicePdf.new(invoices(:draft_invoice)).render
     assert_kind_of String, pdf
@@ -86,5 +88,29 @@ class InvoicePdfTest < ActiveSupport::TestCase
     html = InvoicePdf.new(invoices(:paid_invoice)).to_html
 
     assert_not_includes html, "Pay this invoice online"
+  end
+
+  test "labels the document a tax invoice and breaks out GST when gst is applicable" do
+    invoice = invoices(:draft_invoice)
+    invoice.update!(gst_applicable: true)
+
+    html = InvoicePdf.new(invoice).to_html
+
+    assert_includes html, "TAX INVOICE"
+    assert_includes html, "GST (10%)"
+    assert_includes html, number_to_currency(invoice.gst_amount)
+    assert_includes html, number_to_currency(invoice.total)
+  end
+
+  test "labels the document a plain invoice and omits GST when gst is not applicable" do
+    invoice = invoices(:draft_invoice)
+    invoice.update!(gst_applicable: false)
+
+    html = InvoicePdf.new(invoice).to_html
+
+    assert_includes html, ">INVOICE<"
+    assert_not_includes html, "TAX INVOICE"
+    assert_not_includes html, "GST (10%)"
+    assert_includes html, number_to_currency(invoice.total)
   end
 end

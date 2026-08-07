@@ -183,9 +183,17 @@ table.line-items .num {
 
 table.line-items tfoot td {
   border-bottom: none;
+  font-weight: 700;
+}
+
+table.line-items tfoot tr:first-child td {
   border-top: 2px solid #111827;
   padding-top: 14px;
-  font-weight: 700;
+}
+
+table.line-items tfoot .subtotal-row td {
+  font-weight: 400;
+  padding-top: 4px;
 }
 
 .total-label {

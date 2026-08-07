@@ -17,8 +17,8 @@ class InvoiceItem < ApplicationRecord
   # A cached Stripe payment link is only valid for the total it was created
   # for, so any change to the items behind that total invalidates it - the
   # next request for a link (see StripePaymentLink#url) will regenerate one
-  # for the current total. This is what will keep payment links correct once
-  # GST is added too, since that will also change Invoice#total.
+  # for the current total. See Invoice#clear_stale_payment_link for the
+  # equivalent trigger when gst_applicable changes instead of the items.
   def clear_stale_payment_link
     invoice.update_columns(stripe_payment_link_id: nil, stripe_payment_link_url: nil) if invoice.stripe_payment_link_url.present?
   end

@@ -24,7 +24,7 @@
       </p>
     </div>
     <div class="invoice-meta">
-      <h2>INVOICE</h2>
+      <h2><%= @invoice.gst_applicable? ? "TAX INVOICE" : "INVOICE" %></h2>
       <table>
         <tr><th>Invoice #</th><td><%= @invoice.invoice_number %></td></tr>
         <tr><th>Issue date</th><td><%= @invoice.issue_date&.strftime("%B %d, %Y") %></td></tr>
@@ -71,6 +71,16 @@
       <% end %>
     </tbody>
     <tfoot>
+      <% if @invoice.gst_applicable? %>
+        <tr class="subtotal-row">
+          <td colspan="3" class="total-label">Subtotal</td>
+          <td class="num"><%= number_to_currency(@invoice.subtotal) %></td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="3" class="total-label">GST (10%)</td>
+          <td class="num"><%= number_to_currency(@invoice.gst_amount) %></td>
+        </tr>
+      <% end %>
       <tr>
         <td colspan="3" class="total-label">Total</td>
         <td class="num total-amount"><%= number_to_currency(@invoice.total) %></td>

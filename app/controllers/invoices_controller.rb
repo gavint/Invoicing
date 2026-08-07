@@ -87,7 +87,7 @@ class InvoicesController < ApplicationController
   end
 
   def invoice_params
-    params.require(:invoice).permit(:contact_id, :issue_date, :due_date, :status, :notes,
+    params.require(:invoice).permit(:contact_id, :issue_date, :due_date, :status, :notes, :gst_applicable,
       invoice_items_attributes: %i[id description quantity unit_price _destroy])
   end
 end

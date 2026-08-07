@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_000006) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_07_000001) do
   create_table "contacts", force: :cascade do |t|
     t.string "billing_address_line1"
     t.string "billing_address_line2"
@@ -41,6 +41,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_000006) do
     t.integer "contact_id", null: false
     t.datetime "created_at", null: false
     t.date "due_date"
+    t.boolean "gst_applicable", default: true, null: false
     t.string "invoice_number", null: false
     t.date "issue_date"
     t.text "notes"

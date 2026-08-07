@@ -2,9 +2,8 @@
 # the result on the invoice (stripe_payment_link_id/url), so repeated calls -
 # re-downloading the PDF, re-sending the email - don't create duplicate links
 # in the Stripe dashboard. The cache is cleared whenever the invoice's total
-# could have changed (see InvoiceItem's callbacks), so the link always
-# reflects Invoice#total - which is also where GST, once added, needs to be
-# reflected; this class doesn't need to change when that happens.
+# could have changed (see the clear_stale_payment_link callbacks on Invoice
+# and InvoiceItem), so the link always reflects Invoice#total, GST included.
 class StripePaymentLink
   def initialize(invoice)
     @invoice = invoice
