@@ -2,7 +2,7 @@
   <h1>Invoice <%= @invoice.invoice_number %> <span class="badge bg-secondary"><%= @invoice.status %></span></h1>
   <div>
     <%= link_to "Edit", edit_invoice_path(@invoice), class: "btn btn-outline-secondary" %>
-    <%= link_to "Download PDF", download_pdf_invoice_path(@invoice), class: "btn btn-outline-primary" %>
+    <%= link_to "Download PDF", download_pdf_invoice_path(@invoice), class: "btn btn-outline-primary", target: "_blank" %>
     <%= link_to "Email invoice", send_email_invoice_path(@invoice),
           data: { turbo_method: :post, turbo_confirm: "Send this invoice to #{@invoice.contact.email}?" },
           class: "btn btn-primary" %>
