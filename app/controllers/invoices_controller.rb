@@ -1,5 +1,6 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: %i[show edit update destroy mark_paid download_pdf send_email preview_pdf]
+  before_action :set_invoice, only: %i[show edit update destroy mark_paid download_pdf send_email preview_pdf
+                                        clear_payment_link regenerate_payment_link]
 
   def index
     @show_void = params[:show_void].present?
@@ -49,6 +50,11 @@ class InvoicesController < ApplicationController
   end
 
   def destroy
+    unless @invoice.status == "void"
+      redirect_to @invoice, alert: "Only void invoices can be deleted." and return
+    end
+
+    StripePaymentLink.new(@invoice).deactivate!
     @invoice.destroy
     redirect_to invoices_path, notice: "Invoice deleted."
   end
@@ -78,6 +84,26 @@ class InvoicesController < ApplicationController
     redirect_to @invoice, notice: "Invoice emailed to #{@invoice.contact.email}."
   rescue StandardError => e
     redirect_to @invoice, alert: "Couldn't send email: #{e.message}"
+  end
+
+  # Deactivates and forgets the invoice's current Stripe payment link (if
+  # any), without generating a replacement. A fresh one is created next time
+  # one is needed (invoice page, PDF, email) - see StripePaymentLink#url.
+  def clear_payment_link
+    StripePaymentLink.new(@invoice).deactivate!
+    redirect_to edit_invoice_path(@invoice), notice: "Payment link cleared."
+  end
+
+  # Deactivates the invoice's current Stripe payment link (if any) and
+  # immediately generates a replacement, so the new link is available
+  # straight away instead of waiting for the next page view.
+  def regenerate_payment_link
+    StripePaymentLink.new(@invoice).deactivate!
+    if StripePaymentLink.new(@invoice).url.present?
+      redirect_to edit_invoice_path(@invoice), notice: "Payment link regenerated."
+    else
+      redirect_to edit_invoice_path(@invoice), alert: "Couldn't regenerate the payment link. Check your Stripe settings."
+    end
   end
 
   private

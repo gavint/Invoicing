@@ -84,7 +84,7 @@
   </p>
   <div class="mb-3">
     <%= f.label :stripe_secret_key, "Secret key", class: "form-label" %>
-    <%= f.password_field :stripe_secret_key, class: "form-control", value: @setting.stripe_secret_key, autocomplete: "off" %>
+    <%= f.text_field :stripe_secret_key, class: "form-control", value: @setting.stripe_secret_key, autocomplete: "off" %>
   </div>
 
   <h5 class="mt-4">Email (SMTP) settings</h5>

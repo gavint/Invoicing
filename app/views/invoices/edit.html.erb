@@ -1,2 +1,29 @@
 <h1 class="mb-4">Edit invoice <%= @invoice.invoice_number %></h1>
+
+<% if Setting.instance.stripe_configured? %>
+  <div class="card mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h6 class="mb-1">Stripe payment link</h6>
+        <% if @invoice.stripe_payment_link_url.present? %>
+          <span class="text-muted small"><%= @invoice.stripe_payment_link_url %></span>
+        <% else %>
+          <span class="text-muted small">No payment link generated yet.</span>
+        <% end %>
+      </div>
+      <div class="text-nowrap">
+        <% if @invoice.stripe_payment_link_url.present? %>
+          <%= link_to "Clear", clear_payment_link_invoice_path(@invoice),
+                data: { turbo_method: :post, turbo_confirm: "Clear this invoice's payment link? A new one will be generated the next time it's needed." },
+                class: "btn btn-outline-secondary btn-sm" %>
+        <% end %>
+        <% unless %w[paid void].include?(@invoice.status) %>
+          <%= link_to (@invoice.stripe_payment_link_url.present? ? "Regenerate" : "Generate"), regenerate_payment_link_invoice_path(@invoice),
+                data: { turbo_method: :post }, class: "btn btn-outline-primary btn-sm" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <%= render "form", invoice: @invoice %>

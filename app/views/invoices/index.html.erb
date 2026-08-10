@@ -39,6 +39,11 @@
               <%= link_to "Mark paid", mark_paid_invoice_path(invoice),
                     data: { turbo_method: :patch }, class: "btn btn-sm btn-outline-success" %>
             <% end %>
+            <% if invoice.status == "void" %>
+              <%= link_to "Delete", invoice_path(invoice),
+                    data: { turbo_method: :delete, turbo_confirm: "Delete invoice #{invoice.invoice_number}? This can't be undone." },
+                    class: "btn btn-sm btn-outline-danger" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

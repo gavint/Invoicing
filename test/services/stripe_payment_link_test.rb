@@ -70,6 +70,19 @@ class StripePaymentLinkTest < ActiveSupport::TestCase
     assert_nil invoice.stripe_payment_link_url
   end
 
+  test "deactivate! clears the local cache even when the remote call fails" do
+    invoice = invoices(:draft_invoice)
+    invoice.update_columns(stripe_payment_link_id: "plink_from_another_stripe_mode", stripe_payment_link_url: "https://buy.stripe.com/test_abc")
+
+    Stripe::PaymentLink.stub :update, ->(*) { raise Stripe::InvalidRequestError.new("No such payment link", "id") } do
+      StripePaymentLink.new(invoice).deactivate!
+    end
+
+    invoice.reload
+    assert_nil invoice.stripe_payment_link_id
+    assert_nil invoice.stripe_payment_link_url
+  end
+
   test "deactivate! is a no-op when there's no cached link" do
     invoice = invoices(:draft_invoice)
     assert_nil invoice.stripe_payment_link_id

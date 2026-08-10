@@ -25,18 +25,25 @@ class StripePaymentLink
   end
 
   # Marks the invoice's Stripe payment link inactive (e.g. when voiding an
-  # invoice) so it can no longer be paid, and clears the local cache.
+  # invoice) so it can no longer be paid, and clears the local cache. The
+  # local cache is always cleared, even if the Stripe call fails - e.g. a
+  # link created under a different Stripe key (test vs live) won't exist
+  # under the current one, but it should still stop being served locally.
   def deactivate!
+    attempt_remote_deactivation
+    @invoice.update_columns(stripe_payment_link_id: nil, stripe_payment_link_url: nil)
+  end
+
+  private
+
+  def attempt_remote_deactivation
     return if @invoice.stripe_payment_link_id.blank?
 
     Stripe.api_key = @settings.stripe_secret_key
     Stripe::PaymentLink.update(@invoice.stripe_payment_link_id, active: false)
-    @invoice.update_columns(stripe_payment_link_id: nil, stripe_payment_link_url: nil)
   rescue Stripe::StripeError => e
     Rails.logger.warn("Stripe payment link deactivation failed for invoice #{@invoice.id}: #{e.message}")
   end
-
-  private
 
   def generate
     Stripe.api_key = @settings.stripe_secret_key
