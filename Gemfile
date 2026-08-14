@@ -70,4 +70,4 @@ end
 gem "grover", "= 1.2.10"
 
 # Stripe Payment Links (invoice "Pay now" links) [https://github.com/stripe/stripe-ruby]
-gem "stripe", "~> 19.4"
+gem "stripe", "~> 19.5"
